@@ -1,16 +1,17 @@
-package com.neosofttech.SpringBootRestPOC.model;
+package com.neosofttech.SpringBootRestPOC.Model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Table(name = "user_address")
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserAddress {
 
     @Id
@@ -36,8 +37,8 @@ public class UserAddress {
     private Long pincode;
 
     @Column(name = "created_date", nullable = false)
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @Column(name = "updated_date")
-    private Date updatedDate;
+    private LocalDate updatedDate;
 }

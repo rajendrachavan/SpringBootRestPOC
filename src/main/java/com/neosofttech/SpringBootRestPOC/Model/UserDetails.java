@@ -1,17 +1,20 @@
-package com.neosofttech.SpringBootRestPOC.model;
+package com.neosofttech.SpringBootRestPOC.Model;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "user_details")
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDetails {
 
     @Id
@@ -28,7 +31,7 @@ public class UserDetails {
     private String lastName;
 
     @Column(name = "date_of_birth", nullable = false)
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "email")
     private String emailId;
@@ -47,8 +50,8 @@ public class UserDetails {
     private List<UserEmployment> userEmploymentDetails;
 
     @Column(name = "created_date", nullable = false)
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @Column(name = "updated_date")
-    private Date updatedDate;
+    private LocalDate updatedDate;
 }

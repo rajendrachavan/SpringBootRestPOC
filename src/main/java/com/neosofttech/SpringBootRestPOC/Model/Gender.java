@@ -1,4 +1,4 @@
-package com.neosofttech.SpringBootRestPOC.model;
+package com.neosofttech.SpringBootRestPOC.Model;
 
 public enum Gender {
     MALE,
