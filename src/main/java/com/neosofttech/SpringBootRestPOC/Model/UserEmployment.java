@@ -1,13 +1,9 @@
 package com.neosofttech.SpringBootRestPOC.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "user_employment_details")
@@ -15,6 +11,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserEmployment {
 
     @Id

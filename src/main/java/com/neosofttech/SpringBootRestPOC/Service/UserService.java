@@ -7,4 +7,12 @@ public interface UserService {
     public String getAllUsers() throws Exception;
 
     public String getAllActiveUsers() throws Exception;
+
+    public String sortUsersByDob() throws Exception;
+
+    public String sortUsersByDoj() throws Exception;
+
+    public String deleteUserById(String dashboardRequest) throws Exception;
+
+    public String deactivateUserById(String dashboardRequest) throws Exception;
 }

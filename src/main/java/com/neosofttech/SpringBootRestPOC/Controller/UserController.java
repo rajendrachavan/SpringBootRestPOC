@@ -57,4 +57,56 @@ public class UserController {
         return responseEntity;
     }
 
+    @RequestMapping(value = "/sortUsersByDob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> sortUsersByDob() throws Exception {
+        LOGGER.trace("Starting sortUsersByDob() from UserController");
+        ResponseEntity<?> responseEntity = null;
+        String jsonString = userService.sortUsersByDob();
+        if(jsonString != null){
+            responseEntity = ResponseEntity.ok(jsonString);
+        } else
+            responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        LOGGER.trace("Exiting sortUsersByDob() from UserController with return:: responseEntity: "+responseEntity);
+        return responseEntity;
+    }
+
+    @RequestMapping(value = "/sortUsersByDoj", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> sortUsersByDoj() throws Exception {
+        LOGGER.trace("Starting sortUsersByDoj() from UserController");
+        ResponseEntity<?> responseEntity = null;
+        String jsonString = userService.sortUsersByDoj();
+        if(jsonString != null){
+            responseEntity = ResponseEntity.ok(jsonString);
+        } else
+            responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        LOGGER.trace("Exiting sortUsersByDoj() from UserController with return:: responseEntity: "+responseEntity);
+        return responseEntity;
+    }
+
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteUser(@RequestBody String dashboardRequest) throws Exception {
+        LOGGER.trace("Starting deleteUser() from UserController with arguments:: dashboardRequest: "+dashboardRequest);
+        ResponseEntity<?> responseEntity = null;
+        String jsonString = userService.deleteUserById(dashboardRequest);
+        if(jsonString != null){
+            responseEntity = ResponseEntity.ok(jsonString);
+        } else
+            responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        LOGGER.trace("Exiting deleteUser() from UserController with return:: responseEntity: "+responseEntity);
+        return responseEntity;
+    }
+
+    @RequestMapping(value = "/deactivateUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deactivateUser(@RequestBody String dashboardRequest) throws Exception {
+        LOGGER.trace("Starting deactivateUser() from UserController with arguments:: dashboardRequest: "+dashboardRequest);
+        ResponseEntity<?> responseEntity = null;
+        String jsonString = userService.deactivateUserById(dashboardRequest);
+        if(jsonString != null){
+            responseEntity = ResponseEntity.ok(jsonString);
+        } else
+            responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        LOGGER.trace("Exiting deactivateUser() from UserController with return:: responseEntity: "+responseEntity);
+        return responseEntity;
+    }
+
 }

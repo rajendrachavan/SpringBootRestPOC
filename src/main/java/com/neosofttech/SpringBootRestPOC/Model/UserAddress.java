@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "user_address")
@@ -12,6 +11,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserAddress {
 
     @Id
@@ -35,6 +35,9 @@ public class UserAddress {
 
     @Column(name = "pincode", length = 6, nullable = false)
     private Long pincode;
+
+    @Column(name = "address_status")
+    private String addressStatus;
 
     @Column(name = "created_date", nullable = false)
     private LocalDate createdDate;

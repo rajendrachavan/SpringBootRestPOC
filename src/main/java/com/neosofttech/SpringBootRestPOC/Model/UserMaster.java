@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "user_master")
@@ -12,6 +11,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserMaster {
 
     @Id
