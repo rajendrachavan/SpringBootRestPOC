@@ -15,4 +15,8 @@ public interface UserService {
     public String deleteUserById(String dashboardRequest) throws Exception;
 
     public String deactivateUserById(String dashboardRequest) throws Exception;
+
+    public String createUser(String dashboardRequest) throws Exception;
+
+    public String updateUser(String dashboardRequest) throws Exception;
 }

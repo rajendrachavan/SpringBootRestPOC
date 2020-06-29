@@ -1,4 +1,4 @@
-package com.neosofttech.SpringBootRestPOC.Bootstrap;
+/*package com.neosofttech.SpringBootRestPOC.Bootstrap;
 
 import com.neosofttech.SpringBootRestPOC.Model.*;
 import com.neosofttech.SpringBootRestPOC.Repository.*;
@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//@Component
+
+@Component
 public class DataLoader implements CommandLineRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataLoader.class);
@@ -43,7 +44,7 @@ public class DataLoader implements CommandLineRunner {
         userMaster1.setUserName("domnicarman00");
         userMaster1.setPassword("0domnicA@0");
         userMaster1.setIsActive(Boolean.TRUE);
-        userMaster1.setCreatedDate(LocalDate.of(2020,6,22));
+        userMaster1.setCreatedDate(LocalDate.now());
         userMasterRepository.save(userMaster1);
         LOGGER.trace("UserMaster Created.");
 
@@ -56,7 +57,8 @@ public class DataLoader implements CommandLineRunner {
         userAddress1.setState("hausan");
         userAddress1.setCountry("USA");
         userAddress1.setPincode(900233L);
-        userAddress1.setCreatedDate(LocalDate.of(2020,6,22));
+        userAddress1.setAddressStatus("permanent");
+        userAddress1.setCreatedDate(LocalDate.now());
         userAddressRepository.save(userAddress1);
         LOGGER.trace("UserAddress Created.");
 
@@ -67,7 +69,7 @@ public class DataLoader implements CommandLineRunner {
         userEducation1.setInstituteName("Problex Education Center");
         userEducation1.setPerformance("78%");
         userEducation1.setYearOfPassing("2007");
-        userEducation1.setCreatedDate(LocalDate.of(2020,6,22));
+        userEducation1.setCreatedDate(LocalDate.now());
         userEducationRepository.save(userEducation1);
         LOGGER.trace("UserEducation1 Created.");
 
@@ -78,7 +80,7 @@ public class DataLoader implements CommandLineRunner {
         userEducation2.setInstituteName("Van John Junior college");
         userEducation2.setPerformance("89%");
         userEducation2.setYearOfPassing("2009");
-        userEducation2.setCreatedDate(LocalDate.of(2020,6,22));
+        userEducation2.setCreatedDate(LocalDate.now());
         userEducationRepository.save(userEducation2);
         LOGGER.trace("UserEducation2 Created.");
 
@@ -93,14 +95,14 @@ public class DataLoader implements CommandLineRunner {
         userEmployment1.setLocation("North Carolina, USA");
         userEmployment1.setDesignation("Data Analyst");
         userEmployment1.setStartDate(LocalDate.of(2010, 7, 2));
-        userEmployment1.setCreatedDate(LocalDate.of(2020,6,22));
+        userEmployment1.setCreatedDate(LocalDate.now());
         userEmploymentRepository.save(userEmployment1);
         LOGGER.trace("UserEmployment Created.");
 
         LOGGER.trace("Creating UserDetails...");
         UserDetails userDetails1 = new UserDetails();
         //userDetails1.setUserDetailsId(1L);
-        userDetails1.setUserMaster(userMaster1);
+        userDetails1.setUserMasterId(userMaster1);
         userDetails1.setFirstName("Domnic");
         userDetails1.setLastName("Arman");
         userDetails1.setDateOfBirth(LocalDate.of(1991, 9, 15));
@@ -109,7 +111,7 @@ public class DataLoader implements CommandLineRunner {
         userDetails1.setUserAddresses(Collections.singletonList(userAddress1));
         userDetails1.setUserEducations((userEducationList));
         userDetails1.setUserEmploymentDetails(Collections.singletonList(userEmployment1));
-        userDetails1.setCreatedDate(LocalDate.of(2020,6,22));
+        userDetails1.setCreatedDate(LocalDate.now());
         userDetailsRepository.save(userDetails1);
         LOGGER.trace("UserDetails Created.");
 
@@ -121,7 +123,7 @@ public class DataLoader implements CommandLineRunner {
         userMaster12.setUserName("alexroman39");
         userMaster12.setPassword("3alexR@9");
         userMaster12.setIsActive(Boolean.TRUE);
-        userMaster12.setCreatedDate(LocalDate.of(2020,6,22));
+        userMaster12.setCreatedDate(LocalDate.now());
         userMasterRepository.save(userMaster12);
         LOGGER.trace("UserMaster Created.");
 
@@ -134,7 +136,8 @@ public class DataLoader implements CommandLineRunner {
         userAddress12.setState("hausan");
         userAddress12.setCountry("USA");
         userAddress12.setPincode(900233L);
-        userAddress12.setCreatedDate(LocalDate.of(2020,6,22));
+        userAddress12.setAddressStatus("permanent");
+        userAddress12.setCreatedDate(LocalDate.now());
         userAddressRepository.save(userAddress12);
         LOGGER.trace("UserAddress Created.");
 
@@ -145,7 +148,7 @@ public class DataLoader implements CommandLineRunner {
         userEducation12.setInstituteName("Problex Education Center");
         userEducation12.setPerformance("88%");
         userEducation12.setYearOfPassing("2008");
-        userEducation12.setCreatedDate(LocalDate.of(2020,6,22));
+        userEducation12.setCreatedDate(LocalDate.now());
         userEducationRepository.save(userEducation12);
         LOGGER.trace("UserEducation1 Created.");
 
@@ -156,7 +159,7 @@ public class DataLoader implements CommandLineRunner {
         userEducation22.setInstituteName("Don Nohra Diploma college");
         userEducation22.setPerformance("81%");
         userEducation22.setYearOfPassing("2011");
-        userEducation22.setCreatedDate(LocalDate.of(2020,6,22));
+        userEducation22.setCreatedDate(LocalDate.now());
         userEducationRepository.save(userEducation22);
         LOGGER.trace("UserEducation2 Created.");
 
@@ -171,25 +174,26 @@ public class DataLoader implements CommandLineRunner {
         userEmployment12.setLocation("North Carolina, USA");
         userEmployment12.setDesignation("Data Engineer");
         userEmployment12.setStartDate(LocalDate.of(2012, 8, 22));
-        userEmployment12.setCreatedDate(LocalDate.of(2020,6,22));
+        userEmployment12.setCreatedDate(LocalDate.now());
         userEmploymentRepository.save(userEmployment12);
         LOGGER.trace("UserEmployment Created.");
 
         LOGGER.trace("Creating UserDetails...");
         UserDetails userDetails12 = new UserDetails();
         //userDetails1.setUserDetailsId(1L);
-        userDetails12.setUserMaster(userMaster12);
+        userDetails12.setUserMasterId(userMaster12);
         userDetails12.setFirstName("Alex");
         userDetails12.setLastName("Roman");
-        userDetails12.setDateOfBirth(LocalDate.of(1991, 9, 15));
+        userDetails12.setDateOfBirth(LocalDate.of(1990, 3, 15));
         userDetails12.setEmailId("alexroman@gmail.com");
         userDetails12.setGender(Gender.MALE);
         userDetails12.setUserAddresses(Collections.singletonList(userAddress12));
         userDetails12.setUserEducations((userEducationList1));
         userDetails12.setUserEmploymentDetails(Collections.singletonList(userEmployment12));
-        userDetails12.setCreatedDate(LocalDate.of(2020,6,22));
+        userDetails12.setCreatedDate(LocalDate.now());
         userDetailsRepository.save(userDetails12);
         LOGGER.trace("UserDetails Created.");
 
     }
 }
+*/

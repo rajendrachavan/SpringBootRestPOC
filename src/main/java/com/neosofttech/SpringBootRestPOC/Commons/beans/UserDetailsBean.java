@@ -34,7 +34,4 @@ public class UserDetailsBean implements Serializable {
     @JsonProperty("gender")
     private String gender;
 
-    @JsonPropertyDescription("User's Current Address")
-    @JsonProperty("current_address")
-    private String userAddress;
 }

@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class UserDetails {
 
     @Id
@@ -20,7 +19,7 @@ public class UserDetails {
     private Long userDetailsId;
 
     @OneToOne
-    private UserMaster userMaster;
+    private UserMaster userMasterId;
 
     @Column(name = "first_name", length = 25, nullable = false)
     private String firstName;

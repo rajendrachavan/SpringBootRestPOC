@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class UserMaster {
 
     @Id
@@ -26,6 +25,9 @@ public class UserMaster {
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+
+    @OneToOne(mappedBy = "userMasterId", cascade = CascadeType.ALL)
+    private UserDetails userDetails;
 
     @Column(name = "created_date", nullable = false)
     private LocalDate createdDate;

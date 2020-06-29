@@ -18,6 +18,32 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> registerUser(@RequestBody String dashboardRequest) throws Exception {
+        LOGGER.trace("Starting registerUser() from UserController with arguments:: dashboardRequest: "+dashboardRequest);
+        ResponseEntity<?> responseEntity = null;
+        String jsonString = userService.createUser(dashboardRequest);
+        if(jsonString != null){
+            responseEntity = ResponseEntity.ok(jsonString);
+        } else
+            responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        LOGGER.trace("Exiting registerUser() from UserController with return:: responseEntity: "+responseEntity);
+        return responseEntity;
+    }
+
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateUser(@RequestBody String dashboardRequest) throws Exception {
+        LOGGER.trace("Starting updateUser() from UserController with arguments:: dashboardRequest: "+dashboardRequest);
+        ResponseEntity<?> responseEntity = null;
+        String jsonString = userService.updateUser(dashboardRequest);
+        if(jsonString != null){
+            responseEntity = ResponseEntity.ok(jsonString);
+        } else
+            responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        LOGGER.trace("Exiting updateUser() from UserController with return:: responseEntity: "+responseEntity);
+        return responseEntity;
+    }
+
     @RequestMapping(value = "/getUserByFirstNameAndLastName", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getUserByFirstNameAndLastName(@RequestBody String dashboardRequest) throws Exception {
         LOGGER.trace("Starting getUserByFirstNameAndLastName() from UserController with arguments:: dashboardRequest: "+dashboardRequest);
