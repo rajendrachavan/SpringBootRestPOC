@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neosofttech.SpringBootRestPOC.Commons.CommonConstants;
 import com.neosofttech.SpringBootRestPOC.Commons.CommonUtils;
 import com.neosofttech.SpringBootRestPOC.Commons.DashboardResponse;
+import com.neosofttech.SpringBootRestPOC.Commons.beans.RegistrationBean;
 import com.neosofttech.SpringBootRestPOC.Commons.beans.UserDetailsBean;
 import com.neosofttech.SpringBootRestPOC.Model.Gender;
 import com.neosofttech.SpringBootRestPOC.Model.UserDetails;
@@ -17,8 +18,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +32,8 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    private static final Validator validator = factory.getValidator();
     private static final String FIRST_NAME = "first_name";
     private static final String LAST_NAME = "last_name";
     private static final String DOB = "dob";
@@ -47,40 +55,41 @@ public class UserServiceImpl implements UserService {
         LOGGER.trace("Starting createUser() from UserServiceImpl with arguments:: dashboardRequest: "+dashboardRequest);
         String returnValue = null;
         String errorMsg = null;
+        Boolean canSave = Boolean.TRUE;
         DashboardResponse dashboardResponse = new DashboardResponse();
         try {
-            JsonNode requestJsonNode = MAPPER.readTree(dashboardRequest);
-            String firstName = requestJsonNode.get(FIRST_NAME).asText();
-            String lastName = requestJsonNode.get(LAST_NAME).asText();
-            String dateOfBirth = requestJsonNode.get(DOB).asText();
-            String gender = requestJsonNode.get(GENDER).asText();
-            String emailId = requestJsonNode.get(EMAIL_ID).asText();
-            String username = requestJsonNode.get(USERNAME).asText();
-            String password = requestJsonNode.get(PASSWORD).asText();
+            RegistrationBean registrationBean = MAPPER.readValue(dashboardRequest, RegistrationBean.class);
+            Set<ConstraintViolation<RegistrationBean>> violations = validator.validate(registrationBean);
+            for (ConstraintViolation<RegistrationBean> violation : violations) {
+                canSave = Boolean.FALSE;
+                dashboardResponse.setResponseData(violation.getPropertyPath().toString(), violation.getMessage());
+            }
 
-            UserMaster userMaster = this.userMasterRepository.findUserByUserName(username);
-            if(userMaster == null) {
-                userMaster = new UserMaster();
-                userMaster.setUserName(username);
-                userMaster.setPassword(password);
-                userMaster.setIsActive(Boolean.TRUE);
-                userMaster.setCreatedDate(LocalDate.now());
-                userMaster = this.userMasterRepository.save(userMaster);
+            if(canSave) {
+                UserMaster userMaster = this.userMasterRepository.findUserByUserName(registrationBean.getUsername());
+                if(userMaster == null) {
+                    userMaster = new UserMaster();
+                    userMaster.setUserName(registrationBean.getUsername());
+                    userMaster.setPassword(registrationBean.getPassword());
+                    userMaster.setIsActive(Boolean.TRUE);
+                    userMaster.setCreatedDate(LocalDate.now());
+                    userMaster = this.userMasterRepository.save(userMaster);
 
-                UserDetails userDetails = new UserDetails();
-                userDetails.setUserMasterId(userMaster);
-                userDetails.setFirstName(firstName);
-                userDetails.setLastName(lastName);
-                userDetails.setDateOfBirth(LocalDate.parse(dateOfBirth, CommonConstants.DTF_dd_MM_yyyy));
-                userDetails.setGender(Gender.valueOf(gender));
-                userDetails.setEmailId(emailId);
-                userDetails.setCreatedDate(LocalDate.now());
-                userDetails = this.userDetailsRepository.save(userDetails);
+                    UserDetails userDetails = new UserDetails();
+                    userDetails.setUserMasterId(userMaster);
+                    userDetails.setFirstName(registrationBean.getFirstName());
+                    userDetails.setLastName(registrationBean.getLastName());
+                    userDetails.setDateOfBirth(LocalDate.parse(registrationBean.getDob(), CommonConstants.DTF_dd_MM_yyyy));
+                    userDetails.setGender(Gender.valueOf(registrationBean.getGender()));
+                    userDetails.setEmailId(registrationBean.getEmailId());
+                    userDetails.setCreatedDate(LocalDate.now());
+                    userDetails = this.userDetailsRepository.save(userDetails);
 
-                dashboardResponse.setStatusCode(CommonConstants.SUCCESS_STATUS);
-                dashboardResponse.setResponseData(USER_DETAILS, "User Registered Successfully.");
-            } else
-                errorMsg = "user already exists.";
+                    dashboardResponse.setStatusCode(CommonConstants.SUCCESS_STATUS);
+                    dashboardResponse.setResponseData(USER_DETAILS, "User Registered Successfully.");
+                } else
+                    errorMsg = "user already exists.";
+            }
 
         } catch (Exception e) {
             errorMsg = "Following exception occur while saving User Details.";

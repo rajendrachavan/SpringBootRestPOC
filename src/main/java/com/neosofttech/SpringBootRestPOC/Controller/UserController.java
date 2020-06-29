@@ -1,5 +1,9 @@
 package com.neosofttech.SpringBootRestPOC.Controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.neosofttech.SpringBootRestPOC.Commons.CommonConstants;
+import com.neosofttech.SpringBootRestPOC.Commons.CommonValidator;
+import com.neosofttech.SpringBootRestPOC.Commons.DashboardResponse;
 import com.neosofttech.SpringBootRestPOC.Service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("userManagement/v1/")
-public class UserController {
+public class UserController extends CommonValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Autowired
     private UserService userService;
@@ -22,11 +27,12 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestBody String dashboardRequest) throws Exception {
         LOGGER.trace("Starting registerUser() from UserController with arguments:: dashboardRequest: "+dashboardRequest);
         ResponseEntity<?> responseEntity = null;
-        String jsonString = userService.createUser(dashboardRequest);
-        if(jsonString != null){
-            responseEntity = ResponseEntity.ok(jsonString);
+        DashboardResponse dashboardResponse = MAPPER.readValue(validateRegistrationDetails(dashboardRequest), DashboardResponse.class);
+        if(!dashboardResponse.getStatusCode().equals(CommonConstants.FAIL_STATUS)) {
+            String jsonString = userService.createUser(dashboardRequest);
+            responseEntity = jsonString != null ? ResponseEntity.ok(jsonString) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } else
-            responseEntity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(dashboardResponse, HttpStatus.CONFLICT);
         LOGGER.trace("Exiting registerUser() from UserController with return:: responseEntity: "+responseEntity);
         return responseEntity;
     }
